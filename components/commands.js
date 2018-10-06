@@ -73,7 +73,6 @@ function Commands(discord,folder,bot){
 
             //Add optional utilitaries function to the bot var
             if(fs.existsSync(this.plugin_dir + pluginFolder + '/utils')){
-                console.log(pluginFolder + ' utils synced');
                 fs.readdirSync(this.plugin_dir + pluginFolder + '/utils').forEach(file => {
                     var Util = require('../' + this.plugin_dir + pluginFolder + '/utils/' + file);
                     util = new Util(bot);
