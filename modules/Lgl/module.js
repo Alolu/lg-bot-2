@@ -5,7 +5,7 @@ function Lgl(Discord,bot,Command){
 
     this.config = {
         name : "Loup-Garoux",
-        description : 'A highly customizable board game to play with friends, now on Discord!'
+        description : 'A highly customizable board game to play with friends, now on Discord! '
     }
 
     this.setBot = function(bot){
