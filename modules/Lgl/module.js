@@ -5,6 +5,7 @@ function Lgl(Discord,bot,Command){
     bot.lgl = {};
     this.Discord = Discord;
     this.bot = bot;
+    this.minimumPlayers = 4;
     this.gamesList = new Discord.Collection();
     that = this;
 
@@ -17,13 +18,43 @@ function Lgl(Discord,bot,Command){
         this.bot = bot;
         this.format = this.bot.core.format;
         this.roleManager = this.bot.lgl.roleManager;
+        this.gameStatus = this.bot.lgl.gameStatus;
     }
 
+    this.lgShow = new Command(
+        '<name of the party:optional if you made a party>',
+        "Show a party's information",
+        [{type:'string', optional:'true'}],
+        function(msg,arg){
+            if(arg == ''){
+                game = that.gamesList.get(msg.author)
+                if(game){
+                    partyPanel = that.gameStatus.showPartyPanel(new Discord.RichEmbed(),that.format,game);
+                    msg.reply(partyPanel);
+                    return true;
+                }
+                msg.reply('error message 1');
+                return false;
+            }
+
+            game = that.gamesList.find(game => game.name == arg[0]);
+            
+            if(game){
+                partyPanel = that.gameStatus.showPartyPanel(new Discord.RichEmbed(),that.format,game);
+                msg.reply(partyPanel);
+                return true;
+            }
+
+            msg.reply('error message 2');
+        }
+    )
+
     this.lgCreate = new Command(
-        '<name of the salon> <number of players>',
-        'Create a salon to play Loup-Garoux, must have at least 4 players. Only 1 salon may be created or joined by a player.',
+        '<name of the party> <number of players>',
+        'Create a party to play Loup-Garoux, must have at least 4 players. Only 1 salon may be created or joined by a player.',
         [{type:'string'},{type:'number'}],
         function(msg,arg){
+
             //Check if user is not a leader of a current game
             if(that.gamesList.get(msg.author)){
                 msg.reply('wrong');
@@ -31,14 +62,19 @@ function Lgl(Discord,bot,Command){
             }
 
             //Check if the minimum requirement of players seat is met
-            if(arg[1] < 4){
+            if(arg[1] < that.minimumPlayers){
                 msg.reply('wrong2');
                 return false;
             }
 
             //Create the game and store it in a list
-            that.gamesList.set(msg.author,new Game(arg[0],arg[1],msg,bot));
-            msg.reply('Game made');
+            game = new Game(arg[0],arg[1],msg,bot,Discord);
+            that.gamesList.set(msg.author,game);
+
+            //Create a panel and send it
+            partyPanel = that.gameStatus.showPartyPanel(new Discord.RichEmbed(),that.format,game);
+
+            msg.reply(partyPanel);
         }
     )
 
@@ -79,12 +115,16 @@ function Lgl(Discord,bot,Command){
                     if(isNaN(arg[i+1])){
                         msg.reply('Error Message 3 ' + i);
                     }
-                    if(arg[i + 1] < 4){
+                    if(arg[i + 1] < that.minimumPlayers){
                         msg.reply('Not enough players')
                     }
-                    that.gamesList.get(msg.author).maxPlayerNumbers = arg[i + 1];
+                    that.gamesList.get(msg.author).maxPlayerNumber = arg[i + 1];
                 }
             }
+
+            partyPanel = that.gameStatus.showPartyPanel(new Discord.RichEmbed(),that.format,that.gamesList.get(msg.author));
+
+            msg.reply(partyPanel);
         }
     )
 }

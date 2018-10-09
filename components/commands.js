@@ -84,7 +84,7 @@ function Commands(discord,folder,bot){
         bot.modules.forEach(module => {
             if(module.setBot){
                 module.setBot(bot);
-            }
+            } 
         })
 
         console.log(commandCount + ' commands loaded.')
