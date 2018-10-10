@@ -16,7 +16,7 @@ function Command(usage,description,args,process){
 
 function Commands(discord,folder,bot){
     
-    this.plugin_dir = "./" + folder + "/";
+    this.plugin_dir = folder + "/";
     Discord = discord;
     bot.commands = new Discord.Collection();
 
@@ -30,7 +30,7 @@ function Commands(discord,folder,bot){
     //Function to load all commands from all modules
     this.load_commands = function(){
         var commandCount = 0;
-        this.plugin_folders = this.getDirectories(this.plugin_dir);
+        this.plugin_folders = this.getDirectories("./" + this.plugin_dir);
 
         //Loop through all folders inside the module folder
         console.log('Loading modules :')
@@ -39,13 +39,13 @@ function Commands(discord,folder,bot){
             var pluginFolder = this.plugin_folders[i]; 
 
             //Checks if there's a class inside a module.js file.
-            var Plugin;
+            var Plugin = null;
             try{
                 Plugin = require('../' + this.plugin_dir + pluginFolder + '/module.js')
             }catch(err){
                 console.log("File not found in "  + err)
             }
-
+            
             //Instanciate the class found and record the module in a collection
             if(Plugin){
                 console.log('┃ ' + pluginFolder)

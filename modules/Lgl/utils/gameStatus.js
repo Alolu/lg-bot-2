@@ -1,5 +1,35 @@
 function GameStatus(bot){
     
+    this.checkIfPlayerCreatedAGame = function(gamesList,player){
+        game = gamesList.get(player);
+        if(game){
+            return game;
+        }
+        return false;
+    }
+
+    this.checkIfPlayerJoinedAGame = function(gamesList,player){
+        if(gamesList.find(game => game.playersList.find(Player => Player == player))){
+            return true;
+        }
+        return false;
+    }
+
+    this.checkIfPlayerCanJoin = function(gamesList,player){
+        if(this.checkIfPlayerCreatedAGame(gamesList,player) || this.checkIfPlayerJoinedAGame(gamesList,player)){
+            return true;
+        }
+        return false;
+    }
+
+    this.checkIfGameExists = function(gamesList,name){
+        game = that.gamesList.find(game => game.name == name);
+        if(game){
+            return game;
+        }
+        return false;
+    }
+
     this.showPartyPanel = function(partyPanel,format,game){
         partyPanel
             .setTitle(format.boldenedItalics(game.name))

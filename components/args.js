@@ -109,7 +109,7 @@ function Args(Bot,discord) {
         }
 
 		//Checking if the arguments are as asked
-		var args = suffix.split(' ');
+		var args = suffix.split(' ');		
 		
         var errMsg = "\n" + cmd.usage + "\n" + cmd.description;
         if(!checkArgs(cmd.args,args,msg,errMsg)){

@@ -19,6 +19,8 @@ function Lgl(Discord,bot,Command){
         this.format = this.bot.core.format;
         this.roleManager = this.bot.lgl.roleManager;
         this.gameStatus = this.bot.lgl.gameStatus;
+
+        this.roleManager.getRoles();
     }
 
     this.lgShow = new Command(
@@ -55,9 +57,8 @@ function Lgl(Discord,bot,Command){
         [{type:'string'},{type:'number'}],
         function(msg,arg){
 
-            //Check if user is not a leader of a current game
-            if(that.gamesList.get(msg.author)){
-                msg.reply('wrong');
+            if(that.gameStatus.checkIfPlayerCanJoin(that.gamesList,msg.author)){
+                msg.reply('error msg');
                 return false;
             }
 
@@ -75,6 +76,29 @@ function Lgl(Discord,bot,Command){
             partyPanel = that.gameStatus.showPartyPanel(new Discord.RichEmbed(),that.format,game);
 
             msg.reply(partyPanel);
+        }
+    )
+
+    this.lgJoin = new Command(
+        '<party name>',
+        'Join a Loup Garou party',
+        [{type:'string'}],
+        function(msg,arg){
+
+            if(that.gameStatus.checkIfPlayerCanJoin(that.gamesList,msg.author)){
+                msg.reply('error msg');
+                return false;
+            }
+
+            game = this.gameStatus.checkIfGameExists(that.gamesList,arg[0]);
+
+            if(!game){
+                msg.reply('error msg 2')
+            }            
+
+            game.playersList.push(msg.author);
+
+            msg.reply('party joined');
         }
     )
 

@@ -1,7 +1,10 @@
 function RoleManager(bot){
     
     this.getRoles = function(){
-        return true; 
+
+        dir = bot.commandManager.getDirectories('./modules/Kiddie/');
+        console.log(dir);
+
     }
 
     bot.lgl.roleManager = this;
