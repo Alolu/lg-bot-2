@@ -27,6 +27,65 @@ function Commands(discord,folder,bot){
         });
     }
 
+    this.checkForPlugin = function(plugin_dir,pluginFolder,Plugin){
+        try{
+            Plugin = require('../' + plugin_dir + pluginFolder + '/module.js')
+            return Plugin;
+        }catch(err){
+            console.log("File not found in "  + err)
+            return false;
+        }
+    }
+
+    this.getCommands = function(pluginFunctions,pluginName,pluginFolder){
+
+        var commandCount = 0;
+
+        for(var j = 0; j < pluginFunctions.length; j++){
+
+            //Record the attribute inside a collection if it belongs to the Command class
+            if(pluginFunctions[j] instanceof Command){
+                console.log('┝━ ' + pluginName[j])
+
+                pluginFunctions[j].setModule(pluginFolder);
+                bot.commands.set(pluginName[j],pluginFunctions[j]);
+                commandCount++;
+            }
+        }
+
+        return commandCount;
+    }
+
+    this.getUtil = function(plugin_dir,pluginFolder){
+        if(fs.existsSync(plugin_dir + pluginFolder + '/utils')){
+            fs.readdirSync(plugin_dir + pluginFolder + '/utils').forEach(file => {
+                var Util = require('../' + plugin_dir + pluginFolder + '/utils/' + file);
+                util = new Util(bot);
+            })
+        }
+    }
+
+    this.getSubmodules = function(plugin_dir,pluginFolder,plugin){
+
+        submodulesDir = path.join(plugin_dir,pluginFolder,'submodules');
+
+        //Confirm a submodile folder exists
+        if(fs.existsSync(submodulesDir)){
+            //Init the collection in the main module file
+            plugin.submodule = new Discord.Collection();
+            //Get all differents submodules types
+            fs.readdirSync(submodulesDir).forEach(folder => {
+                //Load all submodules for each types
+                fs.readdirSync(path.join(submodulesDir,folder)).forEach(file => {
+                    //Store the submodule in a collection and gives them a type
+                    var Submodule = require('../' + path.join(submodulesDir,folder,file));
+                    Submodule.type = folder;
+                    plugin.submodule.set(file.slice(0,-3),Submodule);
+                })
+            })
+        }
+    }
+
     //Function to load all commands from all modules
     this.load_commands = function(){
         var commandCount = 0;
@@ -40,43 +99,27 @@ function Commands(discord,folder,bot){
 
             //Checks if there's a class inside a module.js file.
             var Plugin = null;
-            try{
-                Plugin = require('../' + this.plugin_dir + pluginFolder + '/module.js')
-            }catch(err){
-                console.log("File not found in "  + err)
-            }
+            Plugin = this.checkForPlugin(this.plugin_dir,pluginFolder)
             
             //Instanciate the class found and record the module in a collection
             if(Plugin){
                 console.log('┃ ' + pluginFolder)
 
                 plugin = new Plugin(Discord,bot,Command);
-                bot.modules.set(pluginFolder,plugin);
-                
                 pluginName = Object.getOwnPropertyNames(plugin);
                 pluginFunctions = Object.values(plugin);
                 plugin.config.moduleName = pluginFolder;
 
+                bot.modules.set(pluginFolder,plugin);
+
                 //Loop through all attributes inside the instanciated class
-                for(var j = 0; j < pluginFunctions.length; j++){
+                commandCount += this.getCommands(pluginFunctions,pluginName,pluginFolder);
 
-                    //Record the attribute inside a collection if it belongs to the Command class
-                    if(pluginFunctions[j] instanceof Command){
-                        console.log('┝━ ' + pluginName[j])
+                //Loop through submodule
+                this.getSubmodules(this.plugin_dir,pluginFolder,plugin);
 
-                        pluginFunctions[j].setModule(pluginFolder);
-                        bot.commands.set(pluginName[j],pluginFunctions[j]);
-                        commandCount++;
-                    }
-                }
-            }
-
-            //Add optional utilitaries function to the bot var
-            if(fs.existsSync(this.plugin_dir + pluginFolder + '/utils')){
-                fs.readdirSync(this.plugin_dir + pluginFolder + '/utils').forEach(file => {
-                    var Util = require('../' + this.plugin_dir + pluginFolder + '/utils/' + file);
-                    util = new Util(bot);
-                })
+                //Add optional utilitaries function to the bot var
+                this.getUtil(this.plugin_dir,pluginFolder);
             }
             
         }

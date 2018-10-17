@@ -49,7 +49,7 @@ function Core(Discord,bot,Command){
                 } else if (command){
                     helpPanel.addField(bot.prefix + arg + ' : ' + command.description,that.format.code(bot.prefix + arg + ' ' + command.usage));
                 } else {
-                    bot.commands.get('help').process(msg,false);
+                    this.process(msg,false);
                     msg.reply('There is no modules or commands with this name, see the list here');
                     return false;
                 }

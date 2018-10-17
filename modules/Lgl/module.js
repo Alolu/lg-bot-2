@@ -7,7 +7,6 @@ function Lgl(Discord,bot,Command){
     this.bot = bot;
     this.minimumPlayers = 4;
     this.gamesList = new Discord.Collection();
-    that = this;
 
     this.config = {
         name : "Loup-Garoux",
@@ -19,9 +18,12 @@ function Lgl(Discord,bot,Command){
         this.format = this.bot.core.format;
         this.roleManager = this.bot.lgl.roleManager;
         this.gameStatus = this.bot.lgl.gameStatus;
+        this.availableRoles = this.submodule.filter(submodule => submodule.type == 'roles');
 
         this.roleManager.getRoles();
     }
+
+    that = this;
 
     this.lgShow = new Command(
         '<name of the party:optional if you made a party>',

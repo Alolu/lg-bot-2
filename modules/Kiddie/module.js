@@ -1,18 +1,9 @@
-tinyText = require('tiny-text');
-
 function Kiddie(Discord,bot,Command){
     bot.kiddie = {};
 
     this.Discord = Discord;
     this.bot = bot;
     this.state = true;
-    this.reponses = [
-        'tg',
-        'lol ok',
-        'cool',
-        'pipi',
-        'no'
-    ];
 
     this.config = {
         name : 'Kiddie',
