@@ -19,9 +19,9 @@ function Lgl(Discord,bot,Command){
         this.roleManager = this.bot.lgl.roleManager;
         this.gameStatus = this.bot.lgl.gameStatus;
         this.availableRoles = this.submodule.filter(submodule => submodule.type == 'roles');
+        that = this;
     }
 
-    that = this;
 
     this.lgRoleList = new Command(
         '<role:optional>',
@@ -35,8 +35,11 @@ function Lgl(Discord,bot,Command){
                 .setColor('LUMINOUS_VIVID_PINK');
             
             that.availableRoles.forEach(element => {
+                element = new element();
                 compoPanel.addField(element.name,element.description);
             });
+
+            msg.reply(compoPanel);
         }
     )
 

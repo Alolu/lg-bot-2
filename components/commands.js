@@ -14,6 +14,8 @@ function Command(usage,description,args,process){
     }
 }
 
+//! A ameliorer en creant un classe module + fonction invoque automatiquement.
+
 function Commands(discord,folder,bot){
     
     this.plugin_dir = folder + "/";
