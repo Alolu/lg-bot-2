@@ -19,11 +19,26 @@ function Lgl(Discord,bot,Command){
         this.roleManager = this.bot.lgl.roleManager;
         this.gameStatus = this.bot.lgl.gameStatus;
         this.availableRoles = this.submodule.filter(submodule => submodule.type == 'roles');
-
-        this.roleManager.getRoles();
     }
 
     that = this;
+
+    this.lgRoleList = new Command(
+        '<role:optional>',
+        "Show all roles and their description, can specify which role description you want to see (WIP)",
+        [{type:'string',optional:"true"}],
+        function(msg,arg){
+            compoPanel = new Discord.RichEmbed()
+                .setTitle('Role list')
+                .setFooter('Requested by ' + msg.author.username)
+                .setTimestamp()
+                .setColor('LUMINOUS_VIVID_PINK');
+            
+            that.availableRoles.forEach(element => {
+                compoPanel.addField(element.name,element.description);
+            });
+        }
+    )
 
     this.lgShow = new Command(
         '<name of the party:optional if you made a party>',

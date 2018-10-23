@@ -3,10 +3,8 @@ tinyText = require('tiny-text');
 function Util(bot){
 
     this.responses = [
-        'tg',
         'lol ok',
         'cool',
-        'pipi',
         'no'
     ];
 
