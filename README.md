@@ -44,9 +44,8 @@ You can make classes containing functions which will be shared across every modu
 `````
 module1
 └── utils
-      ├ Utility1.js
-      └ Utility2.js
-      
+    ├ Utility1.js
+    └ Utility2.js
 `````
 ##### File architecture :
 ````javascript
@@ -65,7 +64,7 @@ module.exports = Utility1
 
 Then, the function can be used in a module (provided you have done the step 1.4).
 ````javascript
-bot.module1.utilitary1.foo('bar')
+bot.module1.utility1.foo('bar')
 ````
 
 ### 1.4 State functions

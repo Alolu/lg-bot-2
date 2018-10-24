@@ -16,6 +16,7 @@ class Command {
 }
 
 //! A ameliorer en creant un classe module + fonction invoque automatiquement.
+//! Ajouter un module pour ameliorer les Import aussi ou utiliser un workaround a voir.
 class Commands {
     constructor(discord, folder, bot) {
         this.plugin_dir = folder + "/";
@@ -54,12 +55,12 @@ class Commands {
             if (fs.existsSync(plugin_dir + pluginFolder + '/utils')) {
                 fs.readdirSync(plugin_dir + pluginFolder + '/utils').forEach(file => {
                     var Util = require('../' + plugin_dir + pluginFolder + '/utils/' + file);
-                    util = new Util(bot);
+                    new Util(bot);
                 });
             }
         };
         this.getSubmodules = function (plugin_dir, pluginFolder, plugin) {
-            submodulesDir = path.join(plugin_dir, pluginFolder, 'submodules');
+            var submodulesDir = path.join(plugin_dir, pluginFolder, 'submodules');
             //Confirm a submodile folder exists
             if (fs.existsSync(submodulesDir)) {
                 //Init the collection in the main module file
@@ -78,7 +79,8 @@ class Commands {
         };
         //Function to load all commands from all modules
         this.load_commands = function () {
-            var commandCount = 0;
+            var commandCount = 0,plugin,pluginName,pluginFunctions;
+
             this.plugin_folders = this.getDirectories("./" + this.plugin_dir);
             //Loop through all folders inside the module folder
             console.log('Loading modules :');
@@ -106,7 +108,7 @@ class Commands {
             console.log('Setting bot...');
             bot.modules.forEach(module => {
                 if (module.setBot) {
-                    module.setBot(bot);
+                    module.setBot(bot)
                 }
             });
             console.log(commandCount + ' commands loaded.');

@@ -18,7 +18,7 @@ class Util {
         };
         this.saySomething = function () {
             if (this.random(10) > 8) {
-                tinyResponses = responses.concat(timidResponses);
+                var tinyResponses = responses.concat(timidResponses);
             }
             //? To finish, adding zalgo text + emoji text
         };

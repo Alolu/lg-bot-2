@@ -17,7 +17,7 @@ class Lgl {
             this.roleManager = this.bot.lgl.roleManager;
             this.gameStatus = this.bot.lgl.gameStatus;
             this.availableRoles = this.submodule.filter(submodule => submodule.type == 'roles');
-            that = this;
+            var that = this;
         };
         this.lgRoleList = new Command('<role:optional>', "Show all roles and their description, can specify which role description you want to see (WIP)", [{ type: 'string', optional: "true" }], function (msg, arg) {
             compoPanel = new Discord.RichEmbed()

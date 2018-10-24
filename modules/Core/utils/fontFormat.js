@@ -1,23 +1,23 @@
 class FontFormat {
     constructor(bot) {
         this.surlign = function (text) {
-            surlignedText = '__' + text + '__';
+            var surlignedText = '__' + text + '__';
             return surlignedText;
         };
         this.italics = function (text) {
-            italics = '*' + text + '*';
+            var italics = '*' + text + '*';
             return italics;
         };
         this.bolden = function (text) {
-            boldenedText = '**' + text + '**';
+            var boldenedText = '**' + text + '**';
             return boldenedText;
         };
         this.boldenedItalics = function (text) {
-            boldenedItalics = '***' + text + '***';
+            var boldenedItalics = '***' + text + '***';
             return boldenedItalics;
         };
         this.code = function (text) {
-            codedText = "``` " + text + " ```";
+            var codedText = "``` " + text + " ```";
             return codedText;
         };
         bot.core.format = this;
