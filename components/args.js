@@ -83,42 +83,37 @@ function checkArgs(argsList,args,msg,errMsg){
 	}
 }
 
-function Args(Bot,discord) {
-    bot = Bot;
-    prefix = bot.prefix;
-    Discord = discord;
-    Mention = Discord.MessageMentions;
-
-    this.checkForCommands = function(msg){
-
-        //If user is mentionning the bot instead of using the prefix
-        //OR the bot is using the prefix itself
-        if(checkBotMentionOrSelfPrefix(msg)){
-            return false;
-        }
-
-        //Splitting the command and the suffixes
-        var cmdTxt = msg.content.split(" ")[0].substr(prefix.length);
-        var suffix = msg.content.substr(cmdTxt.length+prefix.length+1);
-        
-        //Checking if the command exists
-        var cmd = checkIfCommandExist(cmdTxt);
-        if(!cmd){
-            msg.reply('Cette commande n\'existe pas.');
-            return false;
-        }
-
-		//Checking if the arguments are as asked
-		var args = suffix.split(' ');
-		
-        var errMsg = "\n" + cmd.usage + "\n" + cmd.description;
-        if(!checkArgs(cmd.args,args,msg,errMsg)){
-            return false;
-        }
-
-        //Run the command
-        cmd.process(msg,args);
-    }
+class Args {
+	constructor(Bot, discord) {
+		bot = Bot;
+		prefix = bot.prefix;
+		Discord = discord;
+		Mention = Discord.MessageMentions;
+		this.checkForCommands = function (msg) {
+			//If user is mentionning the bot instead of using the prefix
+			//OR the bot is using the prefix itself
+			if (checkBotMentionOrSelfPrefix(msg)) {
+				return false;
+			}
+			//Splitting the command and the suffixes
+			var cmdTxt = msg.content.split(" ")[0].substr(prefix.length);
+			var suffix = msg.content.substr(cmdTxt.length + prefix.length + 1);
+			//Checking if the command exists
+			var cmd = checkIfCommandExist(cmdTxt);
+			if (!cmd) {
+				msg.reply('Cette commande n\'existe pas.');
+				return false;
+			}
+			//Checking if the arguments are as asked
+			var args = suffix.split(' ');
+			var errMsg = "\n" + cmd.usage + "\n" + cmd.description;
+			if (!checkArgs(cmd.args, args, msg, errMsg)) {
+				return false;
+			}
+			//Run the command
+			cmd.process(msg, args);
+		};
+	}
 }
 
 module.exports = Args;
