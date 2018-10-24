@@ -34,7 +34,7 @@ class Module1 {
     }
 }	
 
-module.exports = Module
+module.exports = Module1
 ````
 ### 1.3 Utilities
 
@@ -91,7 +91,7 @@ class Module1 {
     }
 }	
 
-module.exports = Module
+module.exports = Module1
 ````
 
 ### 1.5 Command creation
@@ -117,7 +117,7 @@ class Module1 {
     )
 }	
 
-module.exports = Module
+module.exports = Module1
 ````
 
 And then you can run it on discord your discord server : 
