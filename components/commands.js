@@ -84,6 +84,17 @@ class Commands {
             this.plugin_folders = this.getDirectories("./" + this.plugin_dir);
             //Loop through all folders inside the module folder
             console.log('Loading modules :');
+            
+            //! Util loader fait un peu n'importe comment, a revamp plus tqrd
+            for (var i = 0; i < this.plugin_folders.length; i++) {
+                var pluginFolder = this.plugin_folders[i];
+                var Plugin = null;
+                Plugin = this.checkForPlugin(this.plugin_dir, pluginFolder);
+                if (Plugin && pluginFolder == 'Test') {
+                    bot = Plugin.setCommand(Command,bot);
+                }
+            }
+            //! Abomination au dessus a revamp plus tard et probablement en dessous aussi
             for (var i = 0; i < this.plugin_folders.length; i++) {
                 var pluginFolder = this.plugin_folders[i];
                 //Checks if there's a class inside a module.js file.

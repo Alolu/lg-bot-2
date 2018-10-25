@@ -32,7 +32,8 @@ class Core {
                 .setTimestamp()
                 .setColor('LUMINOUS_VIVID_PINK');
             helpPanel.addBlankField();
-            if (arg) {
+            console.log(arg);
+            if (arg[0] != '') {
                 module = bot.modules.find(module => module.config.name == arg);
                 var command = bot.commands.get(arg[0]);
                 if (module) {
