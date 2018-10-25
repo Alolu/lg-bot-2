@@ -21,7 +21,11 @@ class Core {
             });
             helpPanel.addBlankField();
         };
-        this.help = new Command('<module or command:optional>', 'List every commands if no module are specified, else list all commands from the specified module. Can also help for one command if a command is specified instead', [{ type: "string", optional: true }], function (msg, arg) {
+        this.help = new Command(
+            '<module or command:optional>',
+            'List every commands if no module are specified, else list all commands from the specified module. Can also help for one command if a command is specified instead',
+            [{ type: "string", optional: true }],
+            function (msg, arg) {
             var helpPanel = new Discord.RichEmbed()
                 .setTitle('Help message!')
                 .setFooter('Requested by ' + msg.author.username)
