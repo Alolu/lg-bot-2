@@ -1,5 +1,6 @@
 //INIT
 //Node Modules
+require('app-module-path').addPath(__dirname);
 const Discord = require('discord.js');
 
 //Config

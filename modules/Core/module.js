@@ -15,7 +15,7 @@ class Core {
         };
         this.listCommands = function (module, helpPanel) {
             helpPanel.addField(that.format.bolden(module.config.name), that.format.surlign(that.format.italics(module.config.description)));
-            commands = bot.commands.filter(command => command.module == module.config.moduleName);
+            var commands = bot.commands.filter(command => command.module == module.config.moduleName);
             commands.forEach(function (command, key) {
                 helpPanel.addField(bot.prefix + key + ' : ' + command.description, that.format.code(bot.prefix + key + ' ' + command.usage));
             });
@@ -34,7 +34,7 @@ class Core {
             helpPanel.addBlankField();
             if (arg) {
                 module = bot.modules.find(module => module.config.name == arg);
-                command = bot.commands.get(arg[0]);
+                var command = bot.commands.get(arg[0]);
                 if (module) {
                     that.listCommands(module, helpPanel);
                 }
