@@ -14,30 +14,28 @@ export default class Module {
     }
 
     getCommands(){
-        return new Discord.Collection(
-            this.mkObjectFromArrays(Object.getOwnPropertyNames,Object.values)
-        );;
+        var Commands = this.mkObjectFromArrays(Object.getOwnPropertyNames(this),Object.values(this))
+        return Commands
     }
 
-    mkObjectFromArrays(key,values){
-        var result
+    mkObjectFromArrays(keys,values){
+        var result = {}
         keys.forEach((key, i) => {
             if(values[i] instanceof command){
-                values[i].setModule(this.name)
+                values[i].setModule(this.constructor.name)
                 result[key] = values[i]
             }
         });
         return result
     }
 
-    static setCommand(Command){
+    static setCommand(Command,bot){
         command = Command
 
         var utilVar = {
             [this.name]: { lol : 3}
         }
         var newBot = Object.assign(bot,utilVar)
-        console.log(newBot)
 
         return newBot
     }

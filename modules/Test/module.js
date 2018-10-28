@@ -12,6 +12,14 @@ class Test extends Module {
                 msg.reply('test')
             }
         )
+        this.testing2 = new this.Command(
+            'test',
+            'test',
+            false,
+            (msg,arg) => {
+                msg.reply('test')
+            }
+        )
     }   
 }
 
