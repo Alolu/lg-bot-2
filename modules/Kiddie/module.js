@@ -1,6 +1,6 @@
 var that
 
-class Kiddie {
+export default class Kiddie {
     constructor(Discord, bot, Command) {
         bot.kiddie = {}
         this.Discord = Discord

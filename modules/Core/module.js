@@ -1,6 +1,6 @@
 var that;
 
-class Core {
+export default class Core {
     constructor(Discord, bot, Command) {
         bot.core = {};
         this.Discord = Discord;

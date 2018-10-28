@@ -1,6 +1,6 @@
 import Module from "components/module";
 
-class Test extends Module {
+export default class Test extends Module {
     constructor(){
         super();
         
@@ -22,5 +22,3 @@ class Test extends Module {
         )
     }   
 }
-
-module.exports = Test

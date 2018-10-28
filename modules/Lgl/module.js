@@ -1,6 +1,6 @@
 var Game = require('./Game.js');
 
-class Lgl {
+export default class Lgl {
     constructor(Discord, bot, Command) {
         bot.lgl = {};
         this.Discord = Discord;
