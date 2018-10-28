@@ -146,6 +146,7 @@ export default class Commands {
         for(var moduleFolder of this.plugin_folders){
             var Module = await this.CheckIfModuleIn(moduleFolder)
             if(Object.getPrototypeOf(Module) === ModuleClass){
+                this.getSubmodules(moduleFolder)
                 bot = Module.setCommand(Command,bot)
                 Module.getUtil(this.utilFolder)
                 this.moduleList.set(moduleFolder,Module)
@@ -185,6 +186,26 @@ export default class Commands {
         return fs.readdirSync(srcpath).filter(function (file) {
             return fs.statSync(path.join(srcpath, file)).isDirectory();
         });
+    };
+
+    //? A finir
+    getSubmodules(moduleFolder) {
+        var submodulesDir = path.join(this.plugin_dir, moduleFolder, 'submodules');
+        //Confirm a submodile folder exists
+        if (fs.existsSync(submodulesDir)) {
+            //Init the collection in the main module file
+            plugin.submodule = new Discord.Collection();
+            //Get all differents submodules types
+            fs.readdirSync(submodulesDir).forEach(folder => {
+                //Load all submodules for each types
+                fs.readdirSync(path.join(submodulesDir, folder)).forEach(file => {
+                    //Store the submodule in a collection and gives them a type
+                    var Submodule = require('../' + path.join(submodulesDir, folder, file));
+                    Submodule.type = folder;
+                    plugin.submodule.set(file.slice(0, -3), Submodule);
+                });
+            });
+        }
     };
 }
 
