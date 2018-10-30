@@ -2,13 +2,14 @@ import fs from 'fs'
 import path from 'path'
 import Discord from 'discord.js'
 
-var command,bot
+var command,bot,submodule
 export default class Module {
     constructor(){
         this.Command = command
         this.bot = bot
+        this.submodule = submodule
         this.config = {
-            name: 'DEFAULT_NAME',
+            name: this.constructor.name,
             description: 'DEFAULT_DESC'
         }
     }
@@ -41,24 +42,28 @@ export default class Module {
         command = Command
 
         var utilVar = {
-            [this.name]: { lol : 3}
+            [this.name]: {}
         }
         var newBot = Object.assign(bot,utilVar)
 
         return newBot
     }
 
-    static getUtil(utilFolder){
+    static getUtil(utilFolder,bot){
         if(fs.existsSync(utilFolder)){
             fs.readdirSync(utilFolder).forEach((utilFile)=>{
                 //import Util from path.join(utilFolder,utilFile)
                 var Util = require(path.join(utilFolder,utilFile))
-                new Util()
+                new Util(bot)
             })
         }
     }
 
     static setBot(Bot) {
         bot = Bot
+    }
+
+    static setSubmodule(Submodule){
+        submodule = Submodule
     }
 }

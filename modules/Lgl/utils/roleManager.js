@@ -4,7 +4,7 @@ class RoleManager {
             dir = bot.commandManager.getDirectories('./modules/Kiddie/');
             console.log(dir);
         };
-        bot.lgl.roleManager = this;
+        bot.Lgl.roleManager = this;
     }
 }
 

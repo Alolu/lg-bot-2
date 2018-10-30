@@ -146,9 +146,9 @@ export default class Commands {
         for(var moduleFolder of this.plugin_folders){
             var Module = await this.CheckIfModuleIn(moduleFolder)
             if(Object.getPrototypeOf(Module) === ModuleClass){
-                this.getSubmodules(moduleFolder)
+                this.getSubmodules(moduleFolder,Module)
                 bot = Module.setCommand(Command,bot)
-                Module.getUtil(this.utilFolder)
+                Module.getUtil(path.join(this.plugin_dir,moduleFolder,bot.utilFolder),bot)
                 this.moduleList.set(moduleFolder,Module)
             } 
         }
@@ -189,22 +189,27 @@ export default class Commands {
     };
 
     //? A finir
-    getSubmodules(moduleFolder) {
+    getSubmodules(moduleFolder,Module) {
+        
         var submodulesDir = path.join(this.plugin_dir, moduleFolder, 'submodules');
-        //Confirm a submodile folder exists
+
         if (fs.existsSync(submodulesDir)) {
-            //Init the collection in the main module file
-            plugin.submodule = new Discord.Collection();
-            //Get all differents submodules types
+            var submoduleObject = {}
             fs.readdirSync(submodulesDir).forEach(folder => {
-                //Load all submodules for each types
+                
+                var Submodules = {}
+                
                 fs.readdirSync(path.join(submodulesDir, folder)).forEach(file => {
-                    //Store the submodule in a collection and gives them a type
-                    var Submodule = require('../' + path.join(submodulesDir, folder, file));
-                    Submodule.type = folder;
-                    plugin.submodule.set(file.slice(0, -3), Submodule);
+                    var Submodule = require('../' + path.join(submodulesDir, folder, file))
+                    Object.assign(Submodules,{[Submodule.name] : Submodule})
                 });
+
+                Object.assign(submoduleObject,{[folder]: Submodules})
             });
+
+            if(submoduleObject != {}){
+                Module.setSubmodule(submoduleObject);
+            }
         }
     };
 }

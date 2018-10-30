@@ -1,31 +1,21 @@
-var that;
+import Module from "components/module";
+import Discord from "discord.js"
 
-export default class Core {
-    constructor(Discord, bot, Command) {
-        bot.core = {};
-        this.Discord = Discord;
-        that = this;
+export default class Core extends Module {
+    constructor() {
+        super()
         this.config = {
             name: 'Core',
             description: 'All the essentials commands and function to make the bot work!'
         };
-        this.setBot = function (bot) {
-            this.bot = bot;
-            this.format = this.bot.core.format;
-        };
-        this.listCommands = function (module, helpPanel) {
-            helpPanel.addField(that.format.bolden(module.config.name), that.format.surlign(that.format.italics(module.config.description)));
-            var commands = bot.commands.filter(command => command.module == module.config.moduleName);
-            commands.forEach(function (command, key) {
-                helpPanel.addField(bot.prefix + key + ' : ' + command.description, that.format.code(bot.prefix + key + ' ' + command.usage));
-            });
-            helpPanel.addBlankField();
-        };
-        this.help = new Command(
+
+        this.format = bot.Core.fontFormat
+        
+        this.help = new this.Command(
             '<module or command:optional>',
             'List every commands if no module are specified, else list all commands from the specified module. Can also help for one command if a command is specified instead',
             [{ type: "string", optional: true }],
-            function (msg, arg) {
+            (msg, arg) => {
             var helpPanel = new Discord.RichEmbed()
                 .setTitle('Help message!')
                 .setFooter('Requested by ' + msg.author.username)
@@ -35,12 +25,14 @@ export default class Core {
             console.log(arg);
             if (arg[0] != '') {
                 module = bot.modules.find(module => module.config.name == arg);
+                console.log(bot.commands)
                 var command = bot.commands.get(arg[0]);
                 if (module) {
-                    that.listCommands(module, helpPanel);
+                    console.log(module)
+                    this.listCommands(module, helpPanel);
                 }
                 else if (command) {
-                    helpPanel.addField(bot.prefix + arg + ' : ' + command.description, that.format.code(bot.prefix + arg + ' ' + command.usage));
+                    helpPanel.addField(bot.prefix + arg + ' : ' + command.description, this.format.code(bot.prefix + arg + ' ' + command.usage));
                 }
                 else {
                     this.process(msg, false);
@@ -49,13 +41,20 @@ export default class Core {
                 }
             }
             else {
-                bot.modules.forEach(function (module) {
-                    that.listCommands(module, helpPanel);
+                bot.modules.forEach((module) => {
+                    this.listCommands(module, helpPanel);
                 });
             }
             msg.reply(helpPanel);
         });
     }
-}
 
-module.exports = Core;
+    listCommands(module, helpPanel) {
+        helpPanel.addField(this.format.bolden(module.config.name), this.format.surlign(this.format.italics(module.config.description)));
+        var commands = bot.commands.filter(command => command.module == module.config.name);
+        commands.forEach((command, key) => {
+            helpPanel.addField(bot.prefix + key + ' : ' + command.description, this.format.code(bot.prefix + key + ' ' + command.usage));
+        });
+        helpPanel.addBlankField();
+    };
+}

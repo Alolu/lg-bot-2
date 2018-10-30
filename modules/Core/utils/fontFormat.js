@@ -20,7 +20,7 @@ class FontFormat {
             var codedText = "``` " + text + " ```";
             return codedText;
         };
-        bot.core.format = this;
+        bot.Core.fontFormat = this;
     }
 }
 

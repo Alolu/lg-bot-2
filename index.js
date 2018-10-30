@@ -19,6 +19,7 @@ bot = new Discord.Client();
 bot.modules = new Discord.Collection();
 bot.prefix = '>';
 bot.moduleFile = 'module.js'
+bot.utilFolder = 'utils'
 
 //Components instancing
 bot.commandManager = new Commands(Discord,modulesFolder,bot);

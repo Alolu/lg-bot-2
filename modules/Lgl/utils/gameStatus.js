@@ -1,7 +1,7 @@
 class GameStatus {
     constructor(bot) {
         this.checkIfPlayerCreatedAGame = function (gamesList, player) {
-            game = gamesList.get(player);
+            var game = gamesList.get(player);
             if (game) {
                 return game;
             }
@@ -20,7 +20,7 @@ class GameStatus {
             return false;
         };
         this.checkIfGameExists = function (gamesList, name) {
-            game = that.gamesList.find(game => game.name == name);
+            var game = that.gamesList.find(game => game.name == name);
             if (game) {
                 return game;
             }
@@ -36,7 +36,7 @@ class GameStatus {
             return partyPanel;
         };
         this.showPlayersName = function (game) {
-            playerListDisplay = '';
+            var playerListDisplay = '';
             game.playersList.forEach(function (player, index, array) {
                 if (index === array.length - 1) {
                     playerListDisplay += player.username + '.';
@@ -47,7 +47,7 @@ class GameStatus {
             });
             return playerListDisplay;
         };
-        bot.lgl.gameStatus = this;
+        bot.Lgl.gameStatus = this;
     }
 }
 

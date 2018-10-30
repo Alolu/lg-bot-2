@@ -3,7 +3,6 @@ import Module from "components/module";
 export default class Test extends Module {
     constructor(){
         super();
-        
         this.testing = new this.Command(
             'test',
             'test',
