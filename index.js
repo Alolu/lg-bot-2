@@ -17,7 +17,7 @@ const modulesFolder = 'modules';
 //Bot attributes
 bot = new Discord.Client();
 bot.modules = new Discord.Collection();
-bot.prefix = '>';
+bot.prefix = '.';
 bot.moduleFile = 'module.js'
 bot.utilFolder = 'utils'
 

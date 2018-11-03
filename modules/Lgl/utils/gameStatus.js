@@ -20,7 +20,7 @@ class GameStatus {
             return false;
         };
         this.checkIfGameExists = function (gamesList, name) {
-            var game = that.gamesList.find(game => game.name == name);
+            var game = gamesList.find(game => game.name == name);
             if (game) {
                 return game;
             }
@@ -28,11 +28,26 @@ class GameStatus {
         };
         this.showPartyPanel = function (partyPanel, format, game) {
             partyPanel
-                .setTitle(format.boldenedItalics(game.name))
+                .setTitle(format.surlign(format.bolden(game.name)))
                 .setFooter('Party created by ' + game.leader.username)
                 .setTimestamp()
                 .setColor('LUMINOUS_VIVID_PINK');
-            partyPanel.addField(game.playersList.length + '/' + game.maxPlayerNumber + ' players in the party', format.bolden('List of players : ' + this.showPlayersName(game)));
+            partyPanel.addField(
+                format.italics(format.surlign('Player slots')),
+                format.italics(game.playersList.length + '/' + game.maxPlayerNumber),
+                true
+            )
+            partyPanel.addField(
+                format.italics(format.surlign('Players')),
+                format.italics(this.showPlayersName(game)),
+                true
+            )
+
+            partyPanel.addField(
+                format.italics(format.surlign('Composition')),
+                this.showCompo(game,format),
+                true
+            )
             return partyPanel;
         };
         this.showPlayersName = function (game) {
@@ -48,6 +63,12 @@ class GameStatus {
             return playerListDisplay;
         };
         bot.Lgl.gameStatus = this;
+    }
+
+    showCompo(game,format){
+        var text = '';
+        game.compo.forEach((quantity,role) => text += format.italics(quantity + ' ' + role.name + '.') + '\n')
+        return text
     }
 }
 

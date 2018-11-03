@@ -1,10 +1,12 @@
 class RoleManager {
     constructor(bot) {
-        this.getRoles = function () {
-            dir = bot.commandManager.getDirectories('./modules/Kiddie/');
-            console.log(dir);
-        };
         bot.Lgl.roleManager = this;
+    }
+    makeDefaultCompo(role,game){
+        var wolvesNum = Math.ceil(game.maxPlayerNumber * 0.15)
+        console.log(wolvesNum)
+        game.compo.set(role.LoupGarou,wolvesNum)
+        game.compo.set(role.Villageois,game.maxPlayerNumber - wolvesNum)
     }
 }
 

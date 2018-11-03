@@ -33,6 +33,7 @@ function checkArgs(argsList,args,msg,errMsg){
 		}else{
 			duration = args.length;
 		}
+		//! FIX ENDLESS TYPE ARGUMENTS !
 		for(var i = 0; i < duration; i++){
 			var arg = args[i];
 			var argPattern = argsList[i];
@@ -42,8 +43,6 @@ function checkArgs(argsList,args,msg,errMsg){
 			if(endless){
 				argPattern = argsList[i - endless];
 			}
-
-			console.log(argPattern,arg,i + " " + endless);
 
 			if(argPattern == null && arg){
 				msg.reply("\nIl y'a trop de parametres!" + errMsg)
@@ -55,6 +54,10 @@ function checkArgs(argsList,args,msg,errMsg){
 			}
 			if(argPattern.endless && !endless){
 				endless = argPattern.endless;
+				if((args.length + 1 - i) % argPattern.endless != 0){
+					console.log('stop')
+					return false
+				}
 			}
 			if(!argPattern.optional && !arg){
 				msg.reply("\nIl n'y a pas assez de parametres!" + errMsg)
