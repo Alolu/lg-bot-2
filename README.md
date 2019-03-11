@@ -26,15 +26,16 @@ Inside the class, you will be able to make Commands and use built-in state funct
 
 ##### Example :
 ````javascript
-class Module1 {
+import Module from "components/module";
+export default class Module1 extends Module {
 	constructor(Discord, bot, Command) {
-    	bot.module1 = {}
-    	this.Discord = Discord
-        this.bot = bot
+    	super()
+        this.config = {
+            name: 'Module1',
+            description: 'My first module!'
+        };
     }
-}	
-
-module.exports = Module1
+}
 ````
 ### 1.3 Utilities
 
@@ -67,33 +68,7 @@ Then, the function can be used in a module (provided you have done the step 1.4)
 bot.module1.utility1.foo('bar')
 ````
 
-### 1.4 State functions
-
-The module class is injected with several function which are executed at different state of the app
-
-#### setBot(bot) (may change later)
-
-This function is ran after every modules and utilities are loaded, and is mainly used to overwrite the bot var with the one containing every utilities
-
-````javascript
-class Module1 {
-	constructor(Discord, bot, Command) {
-    	this.Discord = Discord
-        this.bot = bot
-        console.log(this.bot.module2.util) //Return 'undefined'
-    }
-    
-    setBot(bot){
-    	this.bot = bot
-        console.log(this.bot.module2.util) //Return Util Class
-        this.bot.module2.util = this.util
-    }
-}	
-
-module.exports = Module1
-````
-
-### 1.5 Command creation
+### 1.4 Command creation
 
 A command is made inside a module or submodule, and has 4 parameters
 1. The way to write the command in discord
@@ -103,20 +78,18 @@ A command is made inside a module or submodule, and has 4 parameters
 
 ##### Example : 
 ````javascript
-class Module1 {
-	constructor(Discord, bot, Command) {...}
-    setBot(bot){...}
+import Module from "components/module";
+export default class Module1 extends Module {
+    constructor() {...}
     this.Command1 = new Command(
     	'<string>',
-        'A command that returns what you said to you',
+        'My first command!',
         [{type:'string'}],
         function(msg,arg){
         	msg.reply(arg[0]);
         }
     )
-}	
-
-module.exports = Module1
+}
 ````
 
 And then you can run it on discord your discord server : 
