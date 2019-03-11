@@ -1,8 +1,5 @@
 import Module from "components/module";
-import Datastore from "nedb";
-
-const rpgDb = new Datastore({filename: "db/rpgdb.db", autoload: true})
-
+import Player from "./component/player";
 export default class rpg extends Module {
     constructor(){
         super()
@@ -15,28 +12,9 @@ export default class rpg extends Module {
             "placeholder",
             false,
             async (msg,arg) => {
-                let player = await this.getPlayer(msg.author.id);
-                if(player){
-                    console.log(player);
-                    return true
-                }
-                this.newPlayer(msg.author.id);
-                msg.reply("Welcome message")
+                player = new Player(msg.author.id)
+                player.toString()
             }
         )
-        this.getPlayer = (id) => {
-            return new Promise(resolve => {
-                rpgDb.findOne({_id:id},(err,res)=>{
-                    resolve(res);
-                })
-            })
-        }
-        this.newPlayer = (id)=>{
-            let player = {
-                _id: id,
-                joinDate: new Date()
-            }
-            rpgDb.insert(player)
-        }
     }
 }
