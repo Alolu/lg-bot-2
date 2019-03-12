@@ -12,8 +12,9 @@ export default class rpg extends Module {
             "placeholder",
             false,
             async (msg,arg) => {
-                player = new Player(msg.author.id)
-                player.toString()
+                let player = new Player(msg.author.id)
+                await player.loadPlayerData()
+                console.log(player)
             }
         )
     }

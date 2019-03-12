@@ -2,10 +2,9 @@ import DataObject from "components/dataobject"
 
 export default class PlayerObject extends DataObject {
     constructor(){
-        super('rpgDb');
-
+        super('rpgdb');
     }
-    //! Le this marche pas ???? -> Ca casse la promesse entiere ptn
+    //! Le this marche pas ???? -> Ca casse la promesse
     insertPlayer(player){
         return new Promise((resolve,reject) => {
             this.getDb().insert(player,(err,res) => {
@@ -17,7 +16,7 @@ export default class PlayerObject extends DataObject {
 
     getPlayer(id){
         return new Promise((resolve,reject) => {
-            this.getDb().findOne({_id:id},(err,res) => {
+            this.getDb().findOne({_id: id},(err,res) => {
                 resolve(res)
                 reject(err)
             })
