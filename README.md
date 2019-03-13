@@ -28,12 +28,12 @@ Inside the class, you will be able to make Commands and use built-in state funct
 ````javascript
 import Module from "components/module";
 export default class Module1 extends Module {
-	constructor(Discord, bot, Command) {
+	constructor() {
     	super()
         this.config = {
             name: 'Module1',
             description: 'My first module!'
-        };
+        }
     }
 }
 ````
@@ -56,8 +56,6 @@ class Utility1 {
         	return 'foo' + bar
         }
     }
-    
-    bot.module1.utility1 = this;
 }
 
 module.exports = Utility1
@@ -65,7 +63,8 @@ module.exports = Utility1
 
 Then, the function can be used in a module (provided you have done the step 1.4).
 ````javascript
-bot.module1.utility1.foo('bar')
+foobar = bot.module1.utility1.foo('bar')
+//Returns 'foobar' 
 ````
 
 ### 1.4 Command creation
@@ -80,21 +79,27 @@ A command is made inside a module or submodule, and has 4 parameters
 ````javascript
 import Module from "components/module";
 export default class Module1 extends Module {
-    constructor() {...}
-    this.Command1 = new Command(
-    	'<string>',
-        'My first command!',
-        [{type:'string'}],
-        function(msg,arg){
-        	msg.reply(arg[0]);
+	super()
+        this.config = {
+            name: 'Module1',
+            description: 'My first module!'
         }
-    )
+    	constructor() {
+	    this.command1 = new Command(
+		'<string>',
+		'My first command!',
+		[{type:'string'}],
+		function(msg,arg){
+			msg.reply(arg[0]);
+		}
+	    )
+	}
 }
 ````
 
 And then you can run it on discord your discord server : 
 ````
->Command1 test
+>command1 test
 
-bot says : test
+bot says : @User, test
 ````
