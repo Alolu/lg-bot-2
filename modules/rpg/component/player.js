@@ -12,7 +12,8 @@ export default class Player {
 
     async loadPlayerData(){
         let player = await PO.getPlayer(this._id)
-        player? this.setPlayer(player) : this.newPlayer();
+        player? this.setPlayer(player) : this.newPlayer()
+        return player
     }
 
     setPlayer(player){
@@ -29,6 +30,4 @@ export default class Player {
         }
         PO.insertPlayer(player)
     }
-
-
 }
